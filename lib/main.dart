@@ -6,11 +6,43 @@ main() => runApp(const PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  var _pontuacaoTotal = 0;
 
-  void _responder() {
+  final List<Map<String, Object>> _perguntas = const [
+    {
+      'texto': 'Qual é a sua cor favorita?',
+      'respostas': [
+        {'texto': 'Preto', 'pontuacao': 10},
+        {'texto': 'Vermelho', 'pontuacao': 5},
+        {'texto': 'Verde', 'pontuacao': 3},
+        {'texto': 'Branco', 'pontuacao': 1},
+      ]
+    },
+    {
+      'texto': 'Qual é o seu animal favorito?',
+      'respostas': [
+        {'texto': 'Coelho', 'pontuacao': 10},
+        {'texto': 'Cobra', 'pontuacao': 5},
+        {'texto': 'Elefante', 'pontuacao': 3},
+        {'texto': 'Leão', 'pontuacao': 1},
+      ]
+    },
+    {
+      'texto': 'Qual é o seu instrutor favorito?',
+      'respostas': [
+        {'texto': 'Maria', 'pontuacao': 5},
+        {'texto': 'João', 'pontuacao': 3},
+        {'texto': 'Leo', 'pontuacao': 10},
+        {'texto': 'Pedro', 'pontuacao': 1},
+      ]
+    }
+  ];
+
+  void _responder(int pontuacao) {
     if (temPerguntaSelecionada) {
       setState(() {
         _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
       });
     }
   }
@@ -18,21 +50,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
   bool get temPerguntaSelecionada {
     return _perguntaSelecionada < _perguntas.length;
   }
-
-  final List<Map<String, Object>> _perguntas = const [
-    {
-      'texto': 'Qual é a sua cor favorita?',
-      'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco']
-    },
-    {
-      'texto': 'Qual é o seu animal favorito?',
-      'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão']
-    },
-    {
-      'texto': 'Qual é o seu instrutor favorito?',
-      'respostas': ['Maria', 'João', 'Leo', 'Pedro']
-    }
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +64,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntaSelecionada: _perguntaSelecionada,
                 responder: _responder,
               )
-            : const Resultado(),
+            : Resultado(_pontuacaoTotal),
       ),
     );
   }
